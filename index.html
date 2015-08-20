@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Online Crosswore Creator</title>
+    <!-- Not present in the tutorial. Just for basic styling. -->
+    <link rel="stylesheet" href="css/main.css" />
+    <!-- <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="scripts/main.js"></script>
+  </head>
+  <body>
+    <div id="container">
+
+      <div id="header">
+        <h1>Crossword Creator</h1>
+        <div id="buttons">
+            <button id="setBlacks" onclick="setBlacks();">Set Black Squares</button><br/>
+            <button id="setLetters" onclick="setLetters();">Fill in Letters</button><br/><br/>
+            <button id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button><br/>
+            <button id="clearLetters" onclick="clearLetters();">Clear All Letters</button><br/>
+            <button id="numberCells" onclick="numberCells();">Number Cells</button><br/>
+        </div>
+      </div>
+
+      <div id="crosswordBody">
+      </div>
+
+      <div id="clues">
+          <div class="clueSection">
+              <div class="clueSectionTitle">
+                  <h3>Across</h3>
+              </div>
+              <div id="acrossClues" class="clueSectionInputs">
+
+              </div>
+          </div>
+
+          <div class="clueSection">
+              <div class="clueSectionTitle">
+                  <h3>Down</h3>
+              </div>
+              <div id="downClues" class="clueSectionInputs">
+
+              </div>
+          </div>
+      </div>
+
+    </div>
+  </body>
+</html>

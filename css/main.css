@@ -1,0 +1,68 @@
+#crosswordBody {
+  display: block;
+}
+
+.clueSection {
+  display: inline-block;
+  width: 40%;
+  margin-left: 50px;
+  vertical-align: top;
+}
+
+.clueSectionTitle {
+  margin-bottom: 20px;
+}
+
+.inputRow {
+  width: 100%;
+  margin: 5px 0 0 5px;
+}
+
+.answerInput {
+  width: 90%;
+  margin-left: 5px;
+  height: 20px;
+  padding-left: 5px;
+}
+
+.grid {
+  margin:1em auto;
+  border-collapse: collapse;
+  border:3px solid #000;
+}
+.grid td {
+    cursor:pointer;
+    border:1px solid #ccc;
+}
+
+.black {
+    background: #000;
+}
+
+.edit {
+    background: #ffda00;
+}
+
+.point {
+    background: #99CCFF;
+}
+
+.cellSquare {
+    width:35px; height:35px;
+    position: relative;
+}
+
+.cellNumber {
+  font-size: 10px;
+  text-align:center;
+  float:left;
+  font-family:sans-serif;
+}
+
+.cellValue {
+  font-size: 24px;
+  font-family:sans-serif;
+  padding-left:10px;
+  padding-top:5px;
+  text-transform: uppercase;
+}
