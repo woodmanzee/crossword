@@ -1,7 +1,7 @@
 var currentCellFocus;
 var nextCellFocus;
 var cellDirection = 1;
-var editMode = 1;
+var editMode = 2;
 var cellHtml = '<div class="cellSquare"><div class="cellNumber"></div><div class="cellValue"></div></div>';
 var inputHtml = '<input class="answerInput" type="text">';
 
@@ -23,9 +23,10 @@ function generateGrid() {
   return grid;
 }
 function setupHandlers() {
-    setLetters();
+    setBlacks();
     onCellClick();
     trackKeypress();
+    trackLeaveGrid();
 }
 
 function onCellClick() {
@@ -38,8 +39,10 @@ function onCellClick() {
     } else if (editMode == 2) {
         $(this).toggleClass('black');
         var matchingCellLocation = (14 - this.getAttribute('row')) + '-' + (14 - this.getAttribute('col'));
-        console.log(matchingCellLocation);
-        $('#' + matchingCellLocation).toggleClass('black');
+        if ($(this).get(0) !== $('#' + matchingCellLocation).get(0)) {
+          $('#' + matchingCellLocation).toggleClass('black');
+        }
+        numberCells();
     }
   });
 }
@@ -83,18 +86,24 @@ function clearBlacks() {
       currentCell.removeClass('black');
     }
   }
+  numberCells();
 }
 
 function setBlacks() {
     editMode = 2;
-    $( "#setBlacks" ).hide();
-    $( "#setLetters" ).show();
+    $( "#setBlacks" ).addClass('editMode');
+    $( "#setLetters" ).removeClass('editMode');
+
+    $(nextCellFocus).removeClass('point');
+    nextCellFocus = null;
+    $(currentCellFocus).removeClass('edit');
+    currentCellFocus = null;
 }
 
 function setLetters() {
     editMode = 1;
-    $( "#setLetters" ).hide();
-    $( "#setBlacks" ).show();
+    $( "#setLetters" ).addClass('editMode');
+    $( "#setBlacks" ).removeClass('editMode');
 }
 
 function numberCells() {
@@ -171,6 +180,15 @@ function trackKeypress() {
    });
 }
 
+function trackLeaveGrid() {
+  $( "#clues" ).click(function() {
+    $(nextCellFocus).removeClass('point');
+    nextCellFocus = null;
+    $(currentCellFocus).removeClass('edit');
+    currentCellFocus = null;
+  });
+}
+
 function getNextCell() {
   var curRow = parseInt($(currentCellFocus).attr('row'), 10);
   var curCol = parseInt($(currentCellFocus).attr('col'), 10);
@@ -193,4 +211,5 @@ var grid = generateGrid();
 $( document ).ready(function() {
   $('#crosswordBody').append(grid);
   setupHandlers();
+  numberCells();
 });

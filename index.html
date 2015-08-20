@@ -4,7 +4,7 @@
     <title>Online Crosswore Creator</title>
     <!-- Not present in the tutorial. Just for basic styling. -->
     <link rel="stylesheet" href="css/main.css" />
-    <!-- <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'> -->
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="scripts/main.js"></script>
   </head>
@@ -12,13 +12,15 @@
     <div id="container">
 
       <div id="header">
-        <h1>Crossword Creator</h1>
-        <div id="buttons">
-            <button id="setBlacks" onclick="setBlacks();">Set Black Squares</button><br/>
-            <button id="setLetters" onclick="setLetters();">Fill in Letters</button><br/><br/>
-            <button id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button><br/>
-            <button id="clearLetters" onclick="clearLetters();">Clear All Letters</button><br/>
-            <button id="numberCells" onclick="numberCells();">Number Cells</button><br/>
+        <div id="title">Crossword Creator</div>
+        <div class="toolPanel">
+          <div class="toolTitle">Edit Mode</div>
+          <button class="editModeButton" id="setBlacks" onclick="setBlacks();">Set Black Squares</button>
+          <button id="setLetters" class="editModeButton" onclick="setLetters();">Fill in Letters</button>
+        </div>
+        <div class="toolPanel">
+          <button id="numberCells" onclick="numberCells();">Number Cells</button>
+          <button id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button>
         </div>
       </div>
 
