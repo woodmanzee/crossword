@@ -59,6 +59,18 @@
   padding-left: 5px;
 }
 
+.puzzleTitleInput {
+  width: 400px;
+  height: 20px;
+  padding-left: 5px;
+  margin-left:5px;
+}
+
+#puzzleTitle {
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+}
+
 .grid {
   margin:1em auto;
   border-collapse: collapse;
@@ -74,7 +86,7 @@
 }
 
 .edit {
-    background: #ffda00;
+    background: #ffda00 !important;
 }
 
 .point {

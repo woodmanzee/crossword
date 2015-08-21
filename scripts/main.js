@@ -1,5 +1,4 @@
 var currentCellFocus;
-var nextCellFocus;
 var cellDirection = 1;
 var editMode = 2;
 var cellHtml = '<div class="cellSquare"><div class="cellNumber"></div><div class="cellValue"></div></div>';
@@ -35,12 +34,15 @@ function onCellClick() {
         if ($(this).get(0) === $(currentCellFocus).get(0)) {
           cellDirection = cellDirection == 1 ? 2 : 1;
         }
+        clearRowHighlight();
         doSelect(this);
     } else if (editMode == 2) {
         $(this).toggleClass('black');
+        $(this).find('.cellValue').text('');
         var matchingCellLocation = (14 - this.getAttribute('row')) + '-' + (14 - this.getAttribute('col'));
         if ($(this).get(0) !== $('#' + matchingCellLocation).get(0)) {
           $('#' + matchingCellLocation).toggleClass('black');
+          $('#' + matchingCellLocation).find('.cellValue').text('');
         }
         numberCells();
     }
@@ -53,27 +55,52 @@ function doSelect(newCell) {
       $(currentCellFocus).removeClass('edit');
     }
 
-    // clear existing pointer color if one exists
-    if (nextCellFocus != null) {
-      $(nextCellFocus).removeClass('point');
-    }
-
     currentCellFocus = newCell;
     $(newCell).addClass('edit');
 
     var curRow = parseInt($(currentCellFocus).attr('row'), 10);
     var curCol = parseInt($(currentCellFocus).attr('col'), 10);
     if (cellDirection == 1) {
-      var nextCell = $('#' + curRow + '-' + (curCol + 1));
-      if (curCol != 14 && !nextCell.hasClass('black')) {
-        $(nextCell).addClass('point');
-        nextCellFocus = nextCell;
+      // iterate to the right and highlight
+      for (var i = 1; i < 15; i++) {
+        var nextCell = $('#' + curRow + '-' + (curCol + i));
+        if ($(nextCell).hasClass('black')) {
+          break;
+        }
+        if (curCol != 14 && !nextCell.hasClass('black')) {
+          $(nextCell).addClass('point');
+        }
+      }
+      // iterate to the left and highlight
+      for (var i = 1; i < 15; i++) {
+        var nextCell = $('#' + curRow + '-' + (curCol - i));
+        if ($(nextCell).hasClass('black')) {
+          break;
+        }
+        if (curCol != 0 && !nextCell.hasClass('black')) {
+          $(nextCell).addClass('point');
+        }
       }
     } else {
-      var nextCell = $('#' + (curRow + 1) + '-' + curCol);
-      if (curRow != 14 && !nextCell.hasClass('black')) {
-        $(nextCell).addClass('point');
-        nextCellFocus = nextCell;
+      // iterate down and highlight
+      for (var i = 1; i < 15; i++) {
+        var nextCell = $('#' + (curRow + i) + '-' + curCol);
+        if ($(nextCell).hasClass('black')) {
+          break;
+        }
+        if (curRow != 14 && !nextCell.hasClass('black')) {
+          $(nextCell).addClass('point');
+        }
+      }
+      // iterate up and highlight
+      for (var i = 1; i < 15; i++) {
+        var nextCell = $('#' + (curRow - i) + '-' + curCol);
+        if ($(nextCell).hasClass('black')) {
+          break;
+        }
+        if (curRow != 0 && !nextCell.hasClass('black')) {
+          $(nextCell).addClass('point');
+        }
       }
     }
 }
@@ -94,10 +121,9 @@ function setBlacks() {
     $( "#setBlacks" ).addClass('editMode');
     $( "#setLetters" ).removeClass('editMode');
 
-    $(nextCellFocus).removeClass('point');
-    nextCellFocus = null;
     $(currentCellFocus).removeClass('edit');
     currentCellFocus = null;
+    clearRowHighlight();
 }
 
 function setLetters() {
@@ -182,11 +208,19 @@ function trackKeypress() {
 
 function trackLeaveGrid() {
   $( "#clues" ).click(function() {
-    $(nextCellFocus).removeClass('point');
-    nextCellFocus = null;
     $(currentCellFocus).removeClass('edit');
     currentCellFocus = null;
+    clearRowHighlight();
   });
+}
+
+function clearRowHighlight() {
+    // clear existing row highlight if one exists
+    for (var r = 0; r < 15; r++) {
+      for (var c = 0; c < 15; c++) {
+        $('#' + r + '-' + c).removeClass('point');
+      }
+    }
 }
 
 function getNextCell() {
