@@ -3,15 +3,16 @@ var cellDirection = 1;
 var editMode = 2;
 var cellHtml = '<div class="cellSquare"><div class="cellNumber"></div><div class="cellValue"></div></div>';
 var inputHtml = '<input class="answerInput" type="text">';
+var gridSize;
 
 function generateGrid() {
   var i = 0;
   var grid = document.createElement('table');
   grid.className = 'grid';
 
-  for (var r = 0; r < 15; ++r) {
+  for (var r = 0; r < gridSize; ++r) {
     var tableRow = grid.appendChild(document.createElement('tr'));
-    for (var c = 0; c < 15; ++c) {
+    for (var c = 0; c < gridSize; ++c) {
       var cell = tableRow.appendChild(document.createElement('td'));
       cell.id = r + '-' + c;
       cell.setAttribute("row", r);
@@ -39,7 +40,7 @@ function onCellClick() {
     } else if (editMode == 2) {
         $(this).toggleClass('black');
         $(this).find('.cellValue').text('');
-        var matchingCellLocation = (14 - this.getAttribute('row')) + '-' + (14 - this.getAttribute('col'));
+        var matchingCellLocation = ((gridSize - 1) - this.getAttribute('row')) + '-' + ((gridSize - 1) - this.getAttribute('col'));
         if ($(this).get(0) !== $('#' + matchingCellLocation).get(0)) {
           $('#' + matchingCellLocation).toggleClass('black');
           $('#' + matchingCellLocation).find('.cellValue').text('');
@@ -62,17 +63,17 @@ function doSelect(newCell) {
     var curCol = parseInt($(currentCellFocus).attr('col'), 10);
     if (cellDirection == 1) {
       // iterate to the right and highlight
-      for (var i = 1; i < 15; i++) {
+      for (var i = 1; i < gridSize; i++) {
         var nextCell = $('#' + curRow + '-' + (curCol + i));
         if ($(nextCell).hasClass('black')) {
           break;
         }
-        if (curCol != 14 && !nextCell.hasClass('black')) {
+        if (curCol != (gridSize - 1) && !nextCell.hasClass('black')) {
           $(nextCell).addClass('point');
         }
       }
       // iterate to the left and highlight
-      for (var i = 1; i < 15; i++) {
+      for (var i = 1; i < gridSize; i++) {
         var nextCell = $('#' + curRow + '-' + (curCol - i));
         if ($(nextCell).hasClass('black')) {
           break;
@@ -83,17 +84,17 @@ function doSelect(newCell) {
       }
     } else {
       // iterate down and highlight
-      for (var i = 1; i < 15; i++) {
+      for (var i = 1; i < gridSize; i++) {
         var nextCell = $('#' + (curRow + i) + '-' + curCol);
         if ($(nextCell).hasClass('black')) {
           break;
         }
-        if (curRow != 14 && !nextCell.hasClass('black')) {
+        if (curRow != (gridSize - 1) && !nextCell.hasClass('black')) {
           $(nextCell).addClass('point');
         }
       }
       // iterate up and highlight
-      for (var i = 1; i < 15; i++) {
+      for (var i = 1; i < gridSize; i++) {
         var nextCell = $('#' + (curRow - i) + '-' + curCol);
         if ($(nextCell).hasClass('black')) {
           break;
@@ -106,8 +107,8 @@ function doSelect(newCell) {
 }
 
 function clearBlacks() {
-  for (var r = 0; r < 15; ++r) {
-    for (var c = 0; c < 15; ++c) {
+  for (var r = 0; r < gridSize; ++r) {
+    for (var c = 0; c < gridSize; ++c) {
       // get cell info
       var currentCell = $('#' + r + '-' + c);
       currentCell.removeClass('black');
@@ -136,8 +137,8 @@ function numberCells() {
   counter = 1;
   $('#acrossClues').empty();
   $('#downClues').empty();
-  for (var r = 0; r < 15; ++r) {
-    for (var c = 0; c < 15; ++c) {
+  for (var r = 0; r < gridSize; ++r) {
+    for (var c = 0; c < gridSize; ++c) {
       // get cell info
       var currentCell = $('#' + r + '-' + c);
       currentCell.find('.cellNumber').text('');
@@ -216,8 +217,8 @@ function trackLeaveGrid() {
 
 function clearRowHighlight() {
     // clear existing row highlight if one exists
-    for (var r = 0; r < 15; r++) {
-      for (var c = 0; c < 15; c++) {
+    for (var r = 0; r < gridSize; r++) {
+      for (var c = 0; c < gridSize; c++) {
         $('#' + r + '-' + c).removeClass('point');
       }
     }
@@ -229,21 +230,33 @@ function getNextCell() {
 
   if (cellDirection == 1) {
     var nextCell = $('#' + curRow + '-' + (curCol + 1));
-    if (curCol != 14 && !nextCell.hasClass('black')) {
+    if (curCol != (gridSize - 1) && !nextCell.hasClass('black')) {
       doSelect(nextCell);
     }
   } else {
     var nextCell = $('#' + (curRow + 1) + '-' + curCol);
-    if (curRow != 14 && !nextCell.hasClass('black')) {
+    if (curRow != (gridSize - 1) && !nextCell.hasClass('black')) {
       doSelect(nextCell);
     }
   }
 }
 
-var grid = generateGrid();
+//var grid = generateGrid();
 
 $( document ).ready(function() {
-  $('#crosswordBody').append(grid);
-  setupHandlers();
-  numberCells();
+  $('#createPanel').attr('style', 'display:none;');
+  //$('#crosswordBody').append(grid);
 });
+
+function setGridSize() {
+    var gridInput = parseInt($('#gridSizePicklist').find(":selected").text(), 10);
+    console.log(gridInput);
+    if (gridInput >= 5 && gridInput <= 30) {
+      gridSize = gridInput;
+      $('#createPanel').attr('style', 'display:block;');
+      $('#promptPanel').attr('style', 'display:none;');
+      $('#crosswordBody').append(generateGrid());
+      setupHandlers();
+      numberCells();
+    }
+}

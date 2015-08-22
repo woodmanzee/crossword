@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Online Crosswore Creator</title>
-    <!-- Not present in the tutorial. Just for basic styling. -->
+    <title>Online Crossword Creator</title>
     <link rel="stylesheet" href="css/main.css" />
     <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -13,41 +12,80 @@
 
       <div id="header">
         <div id="title">Crossword Creator</div>
-        <div class="toolPanel">
-          <div class="toolTitle">Edit Mode</div>
-          <button class="editModeButton" id="setBlacks" onclick="setBlacks();">Set Black Squares</button>
-          <button id="setLetters" class="editModeButton" onclick="setLetters();">Fill in Letters</button>
-        </div>
-        <div class="toolPanel">
-          <button id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button>
-        </div>
-        <div class="toolPanel">
-          <span id="puzzleTitle">Puzzle Title:</span>
-          <input type="text" class="puzzleTitleInput">
-        </div>
-      </div>
 
-      <div id="crosswordBody">
-      </div>
-
-      <div id="clues">
-          <div class="clueSection">
-              <div class="clueSectionTitle">
-                  <h3>Across</h3>
-              </div>
-              <div id="acrossClues" class="clueSectionInputs">
-
-              </div>
+        <div id="createPanel">
+          <div class="toolPanel">
+            <div class="toolTitle">Edit Mode</div>
+            <button class="editModeButton" id="setBlacks" onclick="setBlacks();">Set Black Squares</button>
+            <button id="setLetters" class="editModeButton" onclick="setLetters();">Fill in Letters</button>
+          </div>
+          <div class="toolPanel">
+            <button id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button>
+          </div>
+          <div class="toolPanel">
+            <span id="puzzleTitle">Puzzle Title:</span>
+            <input type="text" class="puzzleTitleInput">
           </div>
 
-          <div class="clueSection">
-              <div class="clueSectionTitle">
-                  <h3>Down</h3>
-              </div>
-              <div id="downClues" class="clueSectionInputs">
+        <div id="crosswordBody">
+        </div>
 
-              </div>
-          </div>
+        <div id="clues">
+            <div class="clueSection">
+                <div class="clueSectionTitle">
+                    <h3>Across</h3>
+                </div>
+                <div id="acrossClues" class="clueSectionInputs">
+
+                </div>
+            </div>
+
+            <div class="clueSection">
+                <div class="clueSectionTitle">
+                    <h3>Down</h3>
+                </div>
+                <div id="downClues" class="clueSectionInputs">
+
+                </div>
+            </div>
+        </div>
+      </div> <!-- end CREATE PANEL -->
+
+      <div id="promptPanel">
+        <div class="toolPanel">
+            <div class="toolTitle">
+                Select Grid Size
+            </div>
+            <select class="editModePicklist" id="gridSizePicklist">
+              <option value="30">30</option>
+              <option value="29">29</option>
+              <option value="28">28</option>
+              <option value="27">27</option>
+              <option value="26">26</option>
+              <option value="25">25</option>
+              <option value="24">24</option>
+              <option value="23">23</option>
+              <option value="22">22</option>
+              <option value="21">21</option>
+              <option value="20">20</option>
+              <option value="19">19</option>
+              <option value="18">18</option>
+              <option value="17">17</option>
+              <option value="16">16</option>
+              <option value="15">15</option>
+              <option value="14">14</option>
+              <option value="13">13</option>
+              <option value="12">12</option>
+              <option value="11">11</option>
+              <option value="10">10</option>
+              <option value="9">9</option>
+              <option value="8">8</option>
+              <option value="7">7</option>
+              <option value="6">6</option>
+              <option value="5">5</option>
+            </select>
+            <button class="editModeButton" id="setGridButton" onclick="setGridSize();">Build Grid</button>
+        </div>
       </div>
 
     </div>
