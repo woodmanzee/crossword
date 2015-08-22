@@ -2,7 +2,7 @@ var currentCellFocus;
 var cellDirection = 1;
 var editMode = 2;
 var cellHtml = '<div class="cellSquare"><div class="cellNumber"></div><div class="cellValue"></div></div>';
-var inputHtml = '<input class="answerInput" type="text">';
+var inputHtml = '<input class="answerInput form-control" type="text">';
 var gridSize;
 
 function generateGrid() {
@@ -22,6 +22,7 @@ function generateGrid() {
   }
   return grid;
 }
+
 function setupHandlers() {
     setBlacks();
     onCellClick();
@@ -32,11 +33,15 @@ function setupHandlers() {
 function onCellClick() {
   $( "td" ).click(function() {
     if (editMode == 1) {
-        if ($(this).get(0) === $(currentCellFocus).get(0)) {
-          cellDirection = cellDirection == 1 ? 2 : 1;
+
+        // if clicking a black cell, don't do anything
+        if (!$(this).hasClass('black')) {
+          if ($(this).get(0) === $(currentCellFocus).get(0)) {
+            cellDirection = cellDirection == 1 ? 2 : 1;
+          }
+          clearRowHighlight();
+          doSelect(this);
         }
-        clearRowHighlight();
-        doSelect(this);
     } else if (editMode == 2) {
         $(this).toggleClass('black');
         $(this).find('.cellValue').text('');
@@ -119,8 +124,8 @@ function clearBlacks() {
 
 function setBlacks() {
     editMode = 2;
-    $( "#setBlacks" ).addClass('editMode');
-    $( "#setLetters" ).removeClass('editMode');
+    $( "#setBlacks" ).addClass('active');
+    $( "#setLetters" ).removeClass('active');
 
     $(currentCellFocus).removeClass('edit');
     currentCellFocus = null;
@@ -129,8 +134,8 @@ function setBlacks() {
 
 function setLetters() {
     editMode = 1;
-    $( "#setLetters" ).addClass('editMode');
-    $( "#setBlacks" ).removeClass('editMode');
+    $( "#setLetters" ).addClass('active');
+    $( "#setBlacks" ).removeClass('active');
 }
 
 function numberCells() {
@@ -188,9 +193,9 @@ function isTopInvalid(r, c) {
 
 function generateAnswerInput(type, count) {
     if (type == 'across') {
-        $('#acrossClues').append('<div class="inputRow">' + count + inputHtml + '</div>');
+        $('#acrossClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input type="text" class="form-control" placeholder="Across clue" aria-describedby="basic-addon1"></div>');
     } else {
-        $('#downClues').append('<div class="inputRow">' + count + inputHtml + '</div>');
+        $('#downClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input type="text" class="form-control" placeholder="Down clue" aria-describedby="basic-addon1"></div>');
     }
 }
 
@@ -250,13 +255,17 @@ $( document ).ready(function() {
 
 function setGridSize() {
     var gridInput = parseInt($('#gridSizePicklist').find(":selected").text(), 10);
-    console.log(gridInput);
     if (gridInput >= 5 && gridInput <= 30) {
       gridSize = gridInput;
       $('#createPanel').attr('style', 'display:block;');
       $('#promptPanel').attr('style', 'display:none;');
+      $('#crosswordBody').empty();
       $('#crosswordBody').append(generateGrid());
       setupHandlers();
       numberCells();
     }
+}
+
+function saveCrossword() {
+  saveFile(gridSize);
 }
