@@ -193,21 +193,28 @@ function isTopInvalid(r, c) {
 
 function generateAnswerInput(type, count) {
     if (type == 'across') {
-        $('#acrossClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input type="text" class="form-control" placeholder="Across clue" aria-describedby="basic-addon1"></div>');
+        $('#acrossClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input id="across' + count + '" type="text" class="form-control" placeholder="Across clue" aria-describedby="basic-addon1"></div>');
     } else {
-        $('#downClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input type="text" class="form-control" placeholder="Down clue" aria-describedby="basic-addon1"></div>');
+        $('#downClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input id="down' + count + '" type="text" class="form-control" placeholder="Down clue" aria-describedby="basic-addon1"></div>');
     }
 }
 
 function trackKeypress() {
-  $(window).keypress(function(e) {
+  $(window).keyup(function(e) {
        var ev = e || window.event;
        var key = ev.keyCode || ev.which;
        var letter = String.fromCharCode(key);
        //do stuff with "key" here...
        if (currentCellFocus != null) {
-         $(currentCellFocus).find('.cellValue').text(letter);
-         getNextCell();
+         if (key == 8) {
+           $(currentCellFocus).find('.cellValue').text('');
+           getNextCell(-1);
+         } else {
+           $(currentCellFocus).find('.cellValue').text(letter);
+           getNextCell(1);
+         }
+
+         // track backspace to clear current and go back
        }
    });
 }
@@ -229,17 +236,17 @@ function clearRowHighlight() {
     }
 }
 
-function getNextCell() {
+function getNextCell(direction) {
   var curRow = parseInt($(currentCellFocus).attr('row'), 10);
   var curCol = parseInt($(currentCellFocus).attr('col'), 10);
 
   if (cellDirection == 1) {
-    var nextCell = $('#' + curRow + '-' + (curCol + 1));
+    var nextCell = $('#' + curRow + '-' + (curCol + direction));
     if (curCol != (gridSize - 1) && !nextCell.hasClass('black')) {
       doSelect(nextCell);
     }
   } else {
-    var nextCell = $('#' + (curRow + 1) + '-' + curCol);
+    var nextCell = $('#' + (curRow + direction) + '-' + curCol);
     if (curRow != (gridSize - 1) && !nextCell.hasClass('black')) {
       doSelect(nextCell);
     }

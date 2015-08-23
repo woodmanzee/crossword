@@ -1,3 +1,7 @@
+var loadedGrid;
+var fileName;
+var readOnly = false;
+
 function saveFile(gridSize) {
 
   var squaresOuter = [];  // array of arrays
@@ -41,33 +45,43 @@ function download(filename, text) {
     }
 }
 
-function loadFile() {
-  var input = $('#fileInput')[0].files[0];
+// type 1 is edit, type 2 is read only for solve
+function loadFile(type) {
+  readOnly = type == 1 ? false : true;
+  setLoadType();
+  var input = document.getElementById('fileInput').files[0];
+  fileName = input.name;
   var reader = new FileReader();
-
-  var jsonString;
-
-  // Closure to capture the file information.
-  reader.onload = (function(theFile) {
-    return function(e) {
-      jsonString = e.target.result.toString();
-    };
-  })(input);
-
   reader.readAsText(input);
-  jsonString = JSON.parse(jsonString);
-  console.log(jsonString);
-
-  // parse string into array of arrays
-  //var puzzleInfo = jQuery.parseJSON(jsonString);
-  $.each(jsonString, function(i, object) {
-          alert(object);
-  });
-  //console.log(puzzleInfo.length());
-  //buildLoadedPuzzle(puzzleInfo.length(), puzzleInfo);
-
+  reader.onload = function(e) {
+      // browser completed reading file - display it
+      var result = (e.target.result).toString();
+      loadedGrid = $.parseJSON(result);
+      buildLoadedPuzzle(loadedGrid.length, loadedGrid);
+  };
 }
 
 function buildLoadedPuzzle(puzzleSize, puzzleInfo) {
+    gridSize = puzzleSize;
+    $('#createPanel').attr('style', 'display:block;');
+    $('#promptPanel').attr('style', 'display:none;');
+    $('#crosswordBody').empty();
+    $('#crosswordBody').append(generateGrid());
+    setupHandlers();
+    numberCells();
 
+    for (var r = 0; r < puzzleSize; r++) {
+      for (var c = 0; c < puzzleSize; c++) {
+        var cur = $('#' + r + '-' + c);
+        if (puzzleInfo[r][c] == '*') {
+          $(cur).addClass('black');
+        } else {
+          $(cur).find('.cellValue').text(puzzleInfo[r][c]);
+        }
+      }
+    }
+}
+
+function setLoadType() {
+  // if readOnly is true, hide certain buttons and don't add the
 }
