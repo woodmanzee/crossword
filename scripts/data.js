@@ -47,7 +47,7 @@ function download(filename, text) {
 
 // type 1 is edit, type 2 is read only for solve
 function loadFile(type) {
-  readOnly = type == 1 ? false : tru;
+  readOnly = type == 1 ? false : true;
   setLoadType();
   var input = document.getElementById('fileInput').files[0];
   fileName = input.name;
@@ -57,18 +57,18 @@ function loadFile(type) {
       // browser completed reading file - display it
       var result = (e.target.result).toString();
       loadedGrid = $.parseJSON(result);
-      buildLoadedPuzzle(loadedGrid.length, loadedGrid);
+      buildLoadedPuzzle(loadedGrid.length, loadedGrid, fileName);
   };
 }
 
-function buildLoadedPuzzle(puzzleSize, puzzleInfo) {
+function buildLoadedPuzzle(puzzleSize, puzzleInfo, puzzleName) {
     gridSize = puzzleSize;
+    $('#puzzleTitleValue').val(puzzleName);
     $('#createPanel').attr('style', 'display:block;');
     $('#promptPanel').attr('style', 'display:none;');
     $('#crosswordBody').empty();
     $('#crosswordBody').append(generateGrid());
     setupHandlers();
-    numberCells();
     editMode = 1;
 
     for (var r = 0; r < puzzleSize; r++) {
@@ -81,6 +81,7 @@ function buildLoadedPuzzle(puzzleSize, puzzleInfo) {
         }
       }
     }
+    numberCells();
 }
 
 function setLoadType() {
