@@ -47,7 +47,7 @@ function download(filename, text) {
 
 // type 1 is edit, type 2 is read only for solve
 function loadFile(type) {
-  readOnly = type == 1 ? false : true;
+  readOnly = type == 1 ? false : tru;
   setLoadType();
   var input = document.getElementById('fileInput').files[0];
   fileName = input.name;
@@ -69,6 +69,7 @@ function buildLoadedPuzzle(puzzleSize, puzzleInfo) {
     $('#crosswordBody').append(generateGrid());
     setupHandlers();
     numberCells();
+    editMode = 1;
 
     for (var r = 0; r < puzzleSize; r++) {
       for (var c = 0; c < puzzleSize; c++) {
