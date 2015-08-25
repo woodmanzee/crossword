@@ -23,7 +23,7 @@ function onCellClick() {
           $('#' + matchingCellLocation).toggleClass('black');
           $('#' + matchingCellLocation).find('.cellValue').text('');
         }
-        numberCells();
+        transferPuzzleClues();
     }
   });
 }
@@ -129,6 +129,11 @@ function numberCells() {
       }
     }
   }
+
+  // set height of clue section to match grid height
+  $('.clueSectionInputs').each(function(index) {
+    $(this).attr('style', 'height: ' + $('#crosswordBody').height() + 'px;');
+  });
 }
 
 function isLeftInvalid(r, c) {
@@ -250,6 +255,55 @@ function clearRowHighlight() {
     }
 }
 
+// tough function to take all clue answers from their boxes and put them in the new matching box
+function transferPuzzleClues() {
+  // iterate through grid before renumbering. store key:val where across1:clue
+  var clueMapping = {};
+  for (var r = 0; r < gridSize; r++) {
+    for (var c = 0; c < gridSize; c++) {
+      if ($('#' + r + '-' + c).find('.cellNumber').text() != '') {
+
+        if (isTopInvalid(r, c) && $('#down' + $('#' + r + '-' + c).val() != '')) {   // down clue
+          /*var tuple = {}
+          var downClue = $('#down' + $('#' + r + '-' + c).find('.cellNumber').text());
+          tuple['down' + $('#' + r + '-' + c).find('.cellNumber').text()] = downClue;
+          clueMapping[r + '-' + c] = tuple;
+         */
+          clueMapping[r + '-' + c + '-d'] = $('#down' + $('#' + r + '-' + c).find('.cellNumber').text()).val();
+        }
+        if (isLeftInvalid(r, c) && $('#across' + $('#' + r + '-' + c).val() != '')) {  // across clue
+          /*var tuple = {}
+          var acrossClue = $('#across' + $('#' + r + '-' + c).find('.cellNumber').text());
+          tuple['across' + $('#' + r + '-' + c).find('.cellNumber').text()] = acrossClue;
+          clueMapping[r + '-' + c] = tuple;
+          */
+          clueMapping[r + '-' + c + '-a'] = $('#across' + $('#' + r + '-' + c).find('.cellNumber').text()).val();
+        }
+      }
+    }
+  }
+
+  // renumber and wipe out grid
+  numberCells();
+
+  // iterate through grid after renumbering. restore at correct number
+  for (var r = 0; r < gridSize; r++) {
+    for (var c = 0; c < gridSize; c++) {
+      if ($('#' + r + '-' + c).find('.cellNumber').text() != '') {
+        if (isTopInvalid(r, c)) {
+          var currentClue = clueMapping[r + '-' + c + '-d'];
+          $('#down' + $('#' + r + '-' + c).find('.cellNumber').text()).val(currentClue);
+        }
+        if (isLeftInvalid(r, c)) {
+          var currentClue = clueMapping[r + '-' + c + '-a'];
+          $('#across' + $('#' + r + '-' + c).find('.cellNumber').text()).val(currentClue);
+        }
+      }
+    }
+  }
+
+}
+
 function onNewClick() {
   if (gridSize != null) {
     if (confirm("Are you sure you want to delete your puzzle and start a new one?")) {
@@ -276,7 +330,6 @@ function newPuzzle() {
     $('#puzzleTitleValue').val('');
     $( "#editPanel" ).attr('style', 'display: block;');
     $( "#blacksPanel" ).attr('style', 'display: block;');
-    $( "#blackWarning" ).attr('style', 'display: block;');
     $( "#solvePanel" ).attr('style', 'display: none');
     $( "#checkPanel" ).attr('style', 'display: none');
     exitHelp();
@@ -330,7 +383,7 @@ function saveCrossword() {
 }
 
 function clearBlacks() {
-  if (confirm("Are you sure? Clearing all black squares will delete ANY AND ALL written clues.")) {
+  if (confirm("Are you sure? This will most likely cause you to lose some clues.")) {
       for (var r = 0; r < gridSize; ++r) {
         for (var c = 0; c < gridSize; ++c) {
           // get cell info
@@ -338,7 +391,7 @@ function clearBlacks() {
           currentCell.removeClass('black');
         }
       }
-      numberCells();
+      transferPuzzleClues();
     }
     return false;
 }
@@ -360,7 +413,6 @@ function unlockBlacks() {
 
 function setBlacks() {
     editMode = 2;
-    $('#blackWarning').attr('style', 'display: block;')
     $( "#setBlacks" ).addClass('active');
     $( "#setLetters" ).removeClass('active');
 
@@ -371,7 +423,6 @@ function setBlacks() {
 
 function setLetters() {
     editMode = 1;
-    $('#blackWarning').attr('style', 'display: none;')
     $( "#setLetters" ).addClass('active');
     $( "#setBlacks" ).removeClass('active');
 }
