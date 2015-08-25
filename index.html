@@ -62,43 +62,49 @@
       <div id="title">Crossword Creator</div>
 
       <div id="createPanel">
-        <div class="row" id="editPanel">
-          <div class="col-md-12 text-center">
-            <div class="toolPanel">
-              <!--<div class="toolTitle">Edit Mode</div>-->
-              <ul class="nav nav-pills center-pills">
-                <li id="setBlacks" role="presentation" class="active" onclick="setBlacks();"><a href="#">Set Black Squares</a></li>
-                <li id="setLetters" role="presentation" onclick="setLetters();"><a href="#">Fill in Letters</a></li>
-              </ul>
-            </div>
+        <div class="row">
+          <div id="puzzleTitle" class="toolPanel">
+            <input type="text" id="puzzleTitleValue" class="puzzleTitleInput form-control" style="display:inline; width: 35%;" placeholder="Puzzle Title">
           </div>
         </div>
-        <div id="blacksPanel" class="toolPanel">
-          <button class="btn btn-info" id="lockBlacks" onclick="lockBlacks();">Lock Black Squares</button>
-          <button class="btn btn-info" id="unlockBlacks" style="display:none;" onclick="unlockBlacks();">Unlock Black Squares</button>
-          <button class="btn btn-info" id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button>
-        </div>
-        <div id="blackWarning" class="toolPanel" style="display:none;">
-          <p class="text-danger">
-            WARNING: Editing the layout of black boxes will delete all currently written clues. Write your clues last!
-          </p>
-        </div>
-        <div id="checkPanel" class="toolPanel" style="display: none;">
-          <button class="btn btn-info" id="checkLetter" onclick="checkLetter();">Check Letter</button>
-          <button class="btn btn-info" id="checkWord" onclick="checkWord();">Check Word</button>
-          <button class="btn btn-info" id="checkPuzzle" onclick="checkPuzzle();">Check Puzzle</button>
-        </div>
-        <div id="solvePanel" class="toolPanel" style="display:none;">
-          <button class="btn btn-info" id="revealLetter" onclick="revealLetter();">Reveal Letter</button>
-          <button class="btn btn-info" id="revealWord" onclick="revealWord();">Reveal Word</button>
-          <button class="btn btn-info" id="revealPuzzle" onclick="revealPuzzle();">Reveal Puzzle</button>
-        </div>
-        <div class="toolPanel">
-          <input type="text" id="puzzleTitleValue" class="puzzleTitleInput form-control" style="display:inline; width: 35%;" placeholder="Puzzle Title">
-        </div>
+        <div class="row">
+        <div class="col-md-6">
+          <div class="row" id="editPanel">
+            <div class="col-md-12 text-center">
+              <div class="toolPanel">
+                <!--<div class="toolTitle">Edit Mode</div>-->
+                <ul class="nav nav-pills center-pills">
+                  <li id="setBlacks" role="presentation" class="active" onclick="setBlacks();"><a href="#">Set Black Squares</a></li>
+                  <li id="setLetters" role="presentation" onclick="setLetters();"><a href="#">Fill in Letters</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="blacksPanel" class="toolPanel">
+            <button class="btn btn-info" id="lockBlacks" onclick="lockBlacks();">Lock Black Squares</button>
+            <button class="btn btn-info" id="unlockBlacks" style="display:none;" onclick="unlockBlacks();">Unlock Black Squares</button>
+            <button class="btn btn-info" id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button>
+          </div>
+          <div id="blackWarning" class="toolPanel" style="display:none;">
+            <p class="text-danger">
+              WARNING: Editing the layout of black boxes will delete all currently written clues. Write your clues last!
+            </p>
+          </div>
+          <div id="checkPanel" class="toolPanel" style="display: none;">
+            <button class="btn btn-info" id="checkLetter" onclick="checkLetter();">Check Letter</button>
+            <button class="btn btn-info" id="checkWord" onclick="checkWord();">Check Word</button>
+            <button class="btn btn-info" id="checkPuzzle" onclick="checkPuzzle();">Check Puzzle</button>
+          </div>
+          <div id="solvePanel" class="toolPanel" style="display:none;">
+            <button class="btn btn-info" id="revealLetter" onclick="revealLetter();">Reveal Letter</button>
+            <button class="btn btn-info" id="revealWord" onclick="revealWord();">Reveal Word</button>
+            <button class="btn btn-info" id="revealPuzzle" onclick="revealPuzzle();">Reveal Puzzle</button>
+          </div>
 
-        <div id="crosswordBody">
+          <div id="crosswordBody">
+          </div>
         </div>
+        <div class="col-md-6">
 
         <div id="clues">
           <div class="clueSection">
@@ -119,6 +125,8 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
       </div> <!-- end CREATE PANEL -->
 
       <div id="helpPanel" style="display: none;">
