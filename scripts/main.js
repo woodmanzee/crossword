@@ -410,8 +410,9 @@ function revealWord() {
 function revealPuzzle() {
   for (var r = 0; r < gridSize; r++) {
     for (var c = 0; c < gridSize; c++) {
-      console.log('Setting: ' + r + '-' + c + ' to ' + loadedGrid[r][c]);
-      $('#' + r + '-' + c).find('.cellValue').text(loadedGrid[r][c]);
+      if (loadedGrid[r][c] != '*') {
+        $('#' + r + '-' + c).find('.cellValue').text(loadedGrid[r][c]);
+      }
     }
   }
   puzzleDone();
