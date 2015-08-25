@@ -4,6 +4,8 @@ var readOnly = false;
 
 function saveFile(gridSize) {
 
+  exitHelp();
+
   var squaresOuter = [];  // array of arrays
   var squaresInner;       // inner array
 
@@ -22,7 +24,7 @@ function saveFile(gridSize) {
 
   var jsonString = JSON.stringify(squaresOuter);
   var titleInput = $('#puzzleTitleValue').val();
-  var puzzleTitle = titleInput == '' ? 'mypuzzle.cw' : $('#puzzleTitleValue').val() + '.cw';
+  var puzzleTitle = titleInput == '' ? 'mypuzzle' : $('#puzzleTitleValue').val();
   download(puzzleTitle, jsonString);
 }
 
@@ -45,8 +47,18 @@ function download(filename, text) {
     }
 }
 
+function onLoadClick(type) {
+  if (gridSize != null) {
+    if (confirm("Are you sure you want to leave this puzzle and load a different one?")) {
+      loadFile(type);
+    }
+    return false;
+  }
+}
+
 // type 1 is edit, type 2 is read only for solve
 function loadFile(type) {
+  exitHelp();
   readOnly = type == 1 ? false : true;
   setLoadType();
   var input = document.getElementById('fileInput').files[0];

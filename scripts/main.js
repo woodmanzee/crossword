@@ -236,6 +236,17 @@ function clearRowHighlight() {
     }
 }
 
+function onNewClick() {
+  if (gridSize != null) {
+    if (confirm("Are you sure you want to delete your puzzle and start a new one?")) {
+      newPuzzle();
+    }
+    return false;
+  } else {
+    newPuzzle();
+  }
+}
+
 function newPuzzle() {
     var gridInput = parseInt($('#gridSizePicklist').find(":selected").text(), 10);
     if (gridInput >= 5 && gridInput <= 30) {
@@ -247,6 +258,7 @@ function newPuzzle() {
       setupHandlers();
       numberCells();
     }
+    exitHelp();
 }
 
 function generateGrid() {
@@ -293,18 +305,37 @@ function saveCrossword() {
 }
 
 function clearBlacks() {
-  for (var r = 0; r < gridSize; ++r) {
-    for (var c = 0; c < gridSize; ++c) {
-      // get cell info
-      var currentCell = $('#' + r + '-' + c);
-      currentCell.removeClass('black');
+  if (confirm("Are you sure? Clearing all black squares will delete ANY AND ALL written clues.")) {
+      for (var r = 0; r < gridSize; ++r) {
+        for (var c = 0; c < gridSize; ++c) {
+          // get cell info
+          var currentCell = $('#' + r + '-' + c);
+          currentCell.removeClass('black');
+        }
+      }
+      numberCells();
     }
-  }
-  numberCells();
+    return false;
+}
+
+function lockBlacks() {
+  setLetters();
+    $( "#setBlacks" ).attr('style', 'display:none;');
+    $( "#lockBlacks" ).attr('style', 'display:none;');
+    $( "#clearBlacks" ).attr('style', 'display:none;');
+    $( "#unlockBlacks" ).attr('style', 'display:inline-block;');
+}
+
+function unlockBlacks() {
+    $( "#setBlacks" ).attr('style', 'display:inline-block;');
+    $( "#lockBlacks" ).attr('style', 'display:inline-block;');
+    $( "#clearBlacks" ).attr('style', 'display:inline-block;');
+    $( "#unlockBlacks" ).attr('style', 'display:none;');
 }
 
 function setBlacks() {
     editMode = 2;
+    $('#blackWarning').attr('style', 'display: block;')
     $( "#setBlacks" ).addClass('active');
     $( "#setLetters" ).removeClass('active');
 
@@ -315,6 +346,23 @@ function setBlacks() {
 
 function setLetters() {
     editMode = 1;
+    $('#blackWarning').attr('style', 'display: none;')
     $( "#setLetters" ).addClass('active');
     $( "#setBlacks" ).removeClass('active');
+}
+
+function help() {
+  $('#createPanel').attr('style', 'display: none;');
+  $('#helpButton').attr('style', 'display: none;');
+  $('#exitHelpButton').attr('style', 'display: inline-block;');
+  $('#helpPanel').attr('style', 'display: block;');
+}
+
+function exitHelp() {
+  if (gridSize != null) {
+    $('#createPanel').attr('style', 'display: block;');
+  }
+  $('#helpButton').attr('style', 'display: inline-block;');
+  $('#exitHelpButton').attr('style', 'display: none;');
+  $('#helpPanel').attr('style', 'display: none;');
 }

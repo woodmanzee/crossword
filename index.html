@@ -44,13 +44,15 @@
               <option value="6">6</option>
               <option value="5">5</option>
             </select>
-            <button class="btn btn-info" onclick="newPuzzle();">New</button>
+            <button class="btn btn-info" onclick="onNewClick();">New</button>
             <button class="btn btn-info" onclick="saveCrossword();">Save</button>
             <div class="form-group">
               <input class="form-control" id="fileInput" type="file" /><br/>
             </div>
-            <button class="btn btn-info" onclick="loadFile(1);">Load to Edit</button>
-            <button class="btn btn-info" onclick="loadFile(2);">Load to Solve</button>
+            <button class="btn btn-info" onclick="onLoadClick(1);">Load to Edit</button>
+            <button class="btn btn-info" onclick="onLoadClick(2);">Load to Solve</button>
+            <button class="btn btn-success" id="helpButton" onclick="help();">Help</button>
+            <button class="btn btn-success" id="exitHelpButton" onclick="exitHelp();" style="display: none;">Exit Help</button>
           </div>
         </div>
       </div>
@@ -61,10 +63,10 @@
 
       <div id="createPanel">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 text-center">
             <div class="toolPanel">
               <!--<div class="toolTitle">Edit Mode</div>-->
-              <ul class="nav nav-pills" style="margin: auto; width: 18%;">
+              <ul class="nav nav-pills center-pills">
                 <li id="setBlacks" role="presentation" class="active" onclick="setBlacks();"><a href="#">Set Black Squares</a></li>
                 <li id="setLetters" role="presentation" onclick="setLetters();"><a href="#">Fill in Letters</a></li>
               </ul>
@@ -72,7 +74,14 @@
           </div>
         </div>
         <div class="toolPanel">
+          <button class="btn btn-info" id="lockBlacks" onclick="lockBlacks();">Lock Black Squares</button>
+          <button class="btn btn-info" id="unlockBlacks" style="display:none;" onclick="unlockBlacks();">Unlock Black Squares</button>
           <button class="btn btn-info" id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button>
+        </div>
+        <div id="blackWarning" class="toolPanel">
+          <p class="text-danger">
+            WARNING: Editing the layout of black boxes will delete all currently written clues. Write your clues last!
+          </p>
         </div>
         <div class="toolPanel">
           <input type="text" id="puzzleTitleValue" class="puzzleTitleInput form-control" style="display:inline; width: 35%;" placeholder="Puzzle Title">
@@ -101,6 +110,43 @@
           </div>
         </div>
       </div> <!-- end CREATE PANEL -->
+
+      <div id="helpPanel" style="display: none;">
+          <div class="row">
+            <div class="col-md-3"></div>
+              <div class="col-md-6">
+
+                <h3>Basic Use</h3>
+                <h5>Create Your Grid</h5>
+                <p>First, select the dimensions of your grid using the dropdown box in the top left corner. Grids can only be (n x n), so selecting "15" will make a 15x15 grid. Next, click the "New" button in the nav bar next to the dimension you chose to have your grid built.</p>
+
+                <h5>Place Black Squares</h5>
+                <p>When creating a new puzzle, "Set Black Squares" mode will be enabled by default. Simply click a square on your grid to add a black square and its symmetrical partner. NYT crossword puzzles expect 180 degree symmetry, so the second black square is done without you having to figure out where it needs to go. The grid will also renumber the squares to fit your new design, and add/remove clue prompts at the bottom of the screen. When you're all done with your black squares, click the "Lock Black Squares" button to make sure you don't mess up your grid. Or if you don't like your black squares, click the "Clear Black Squares" button to wipe out all black squares on the grid.</p>
+                <p class="text-danger">WARNING: Every time you change your black squares, the grid renumbers itself and recreates the clue prompts at the bottom of the screen. Changing the black square layout when you have existing clues will WIPE OUT your clues. So be careful!</p>
+
+                <h5>Fill in the Grid</h5>
+                <p>If you clicked the "Lock Black Squares" button, the "Fill in Letters" mode will be enabled by default. If not, simply click the "Fill in the Letters" button to change to that edit mode. You can now fill in your grid with all the witty themes and answers you no doubt have all prepared and ready. Right? Right??</p>
+
+                <h5>Write Your Clues</h5>
+                <p>Once your grid is filled out and sitting pretty, use the clue inputs to write associated clues for your answers. Try not to write any clues that would make Rex Parker wail and gnash his teeth, okay?</p>
+
+                <h5>Save Your Puzzle</h5>
+                <p>Don't forget to save your puzzle when you're done! First, give it a title in the "Puzzle Title" box above the grid. Then you can either save it as a PDF or as a text file and send to friends to sit and puzzle over (weak pun intended). They can load your file into the Crossword Creator and solve it, or load it and edit it if they feel like plagiarizing your puzzle.</p><br/>
+
+                <h3>Button Explanations</h3>
+                <h5>New</h5><p>Creates a new puzzle grid with the dimensions selected in the input to the left of the button.</p>
+                <h5>Save</h5><p>Saves a copy of your puzzle to a specified location on your local computer.</p>
+                <h5>Load to Edit</h5><p>Takes the file chosen in the input box to the left of the button and loads it in edit mode for you to continue working on.</p>
+                <h5>Load to Solve</h5><p>Takes the file chose in the input box to the left of the "Load to Edit" button and loads it in solve mode.</p>
+                <h5>Set Black Squares</h5><p>Enables the placement of black squares on the crossword grid. Answer numbers are auto calculated and clue inputs are created below the grid.</p>
+                <h5>Fill in Letters</h5><p>Enables the placement of letters on the grid. The row/column is highlighted, and a yellow square is placed on the box currently being edited.</p>
+                <h5>Lock Black Squares</h5><p>Since adding or removing black squares has to renumber the entire board and clue inputs as well, this prevents accidental editing of the board and losing clues already written by setting the edit mode to "Fill in Letters" and removing the "Set Black Squares" option.</p>
+                <h5>Unlock Black Squares</h5><p>Redisplays the "Set Black Squares" option that was hidden by the "Lock Black Squares" button.</p>
+                <h5> Clear Black Squares</h5><p>Removes all black squares from the board, sets the numbers back to default, and clears out all clues written. Probably don't want to use this button very often.</p>
+              </div>
+            <div class="col-md-3"></div>
+          </div>
+      </div>
 
     </div>
 
