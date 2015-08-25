@@ -126,3 +126,7 @@
 .center-pills {
   display:inline-block;
 }
+
+.wrongGuess {
+  color: red;
+}

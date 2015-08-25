@@ -176,11 +176,20 @@ function trackKeypress() {
            navigateGrid(1, -1, e);
          } else {
            $(currentCellFocus).find('.cellValue').text(letter);
+           checkCellStatus();
            getNextCell(1);
          }
 
        }
    });
+}
+
+function checkCellStatus() {
+  // if its wrong, replace with wasWrong class
+  if ($(currentCellFocus).find('.cellValue').hasClass('wrongGuess')) {
+    $(currentCellFocus).find('.cellValue').removeClass('wrongGuess');
+    $(currentCellFocus).find('.cellStatus').html('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>');
+  }
 }
 
 function navigateGrid(desiredDirection, desiredAmount, event) {
@@ -384,15 +393,37 @@ function exitHelp() {
 }
 
 function checkLetter() {
-
+  var curRow = parseInt($(currentCellFocus).attr('row'), 10);
+  var curCol = parseInt($(currentCellFocus).attr('col'), 10);
+  setCheck(currentCellFocus, curRow, curCol);
 }
 
 function checkWord() {
-
+  $('.point').each(function(index) {
+    setCheck(this, parseInt($(this).attr('row'), 10), parseInt($(this).attr('col'), 10));
+  });
 }
 
 function checkPuzzle() {
+  for (var r = 0; r < gridSize; r++) {
+    for (var c = 0; c < gridSize; c++) {
+      if (loadedGrid[r][c] != '*') {
+        setCheck('#' + r + '-' + c, r, c);
+      }
+    }
+  }
+}
 
+function setCheck(checkedCell, r, c) {
+  var curLetter = $(checkedCell).find('.cellValue').text();
+  console.log('Checking: ' + curLetter + ' vs ' + loadedGrid[r][c]);
+  if (curLetter == '') {
+  } else if (curLetter == loadedGrid[r][c]) {
+    $(checkedCell).find('.cellStatus').html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+  } else {
+    $(checkedCell).find('.cellValue').addClass('wrongGuess');
+    $(checkedCell).find('.cellStatus').html('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
+  }
 }
 
 function revealLetter() {

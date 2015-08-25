@@ -16,8 +16,8 @@ This is meant to be a free online crossword creation tool, since I couldn't find
 - [x] load full puzzle to solve
   - [x] make read only
   - [x] hide answers, but store to check
-  - [ ] add check/solve buttons
+  - [x] add check/solve buttons
 - [x] fix weird issue with spaces not allowed in inputs
 - [ ] make "tab" button switch to next answer
-- [ ] add icons when revealing or checking an answer
+- [x] add icons when revealing or checking an answer
 - [ ] detect and recognize a solved puzzle
