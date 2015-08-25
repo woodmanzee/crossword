@@ -225,6 +225,11 @@ function trackLeaveGrid() {
     currentCellFocus = null;
     clearRowHighlight();
   });
+  $( "#puzzleTitleValue" ).click(function() {
+    $(currentCellFocus).removeClass('edit');
+    currentCellFocus = null;
+    clearRowHighlight();
+  });
 }
 
 function clearRowHighlight() {
@@ -264,6 +269,7 @@ function newPuzzle() {
     $( "#blacksPanel" ).attr('style', 'display: block;');
     $( "#blackWarning" ).attr('style', 'display: block;');
     $( "#solvePanel" ).attr('style', 'display: none');
+    $( "#checkPanel" ).attr('style', 'display: none');
     exitHelp();
 }
 
@@ -294,7 +300,7 @@ function setupHandlers() {
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1 || ([32].indexOf(e.keyCode) > -1 && currentCellFocus != null)) {
         e.preventDefault();
     }
 }, false);

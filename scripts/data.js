@@ -130,12 +130,14 @@ function buildLoadedPuzzle(puzzleSize, puzzleInfo, puzzleName, puzzleClues) {
     $( "#blacksPanel" ).attr('style', 'display:none;');
     $( "#blackWarning" ).attr('style', 'display:none;');
     $( "#solvePanel" ).attr('style', 'display: block');
+    $( "#checkPanel" ).attr('style', 'display: block');
   } else {
     $('#puzzleTitleValue').removeAttr('disabled');
     $( "#editPanel" ).attr('style', 'display: block;');
     $( "#blacksPanel" ).attr('style', 'display: block;');
     $( "#blackWarning" ).attr('style', 'display: block;');
     $( "#solvePanel" ).attr('style', 'display: none');
+    $( "#checkPanel" ).attr('style', 'display: none');
   }
 
 }

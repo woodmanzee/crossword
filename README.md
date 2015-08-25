@@ -17,4 +17,4 @@ This is meant to be a free online crossword creation tool, since I couldn't find
   - [x] make read only
   - [x] hide answers, but store to check
   - [ ] add check/solve buttons
-- [ ] fix weird issue with spaces not allowed in inputs
+- [x] fix weird issue with spaces not allowed in inputs
