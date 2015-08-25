@@ -101,10 +101,18 @@
 
 .cellNumber {
   font-size: 10px;
-  text-align:center;
-  float:left;
+  text-align: left;
   font-family:sans-serif;
   position: absolute;
+  padding-left: 1px;
+}
+
+.cellStatus {
+  font-size: 8px;
+  font-family: sans-serif;
+  position: absolute;
+  margin-left: 25px;
+  margin-top: 2px;
 }
 
 .cellValue {

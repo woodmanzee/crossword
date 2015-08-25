@@ -1,7 +1,7 @@
 var currentCellFocus;   // currently highlighted square
 var cellDirection = 1;  // 1 for horizontal answer, 2 for vertical
 var editMode = 2;       // 2 for writing black squares, 1 for writing letter
-var cellHtml = '<div class="cellSquare"><div class="cellNumber"></div><div class="cellValue"></div></div>';
+var cellHtml = '<div class="cellSquare"><div class="cellNumber"></div><div class="cellStatus"></span></div><div class="cellValue"></div></div>';
 var gridSize;           // dimensions of the grid. 5 = a 5x5 grid
 
 function onCellClick() {
@@ -401,19 +401,29 @@ function revealLetter() {
   var curCol = parseInt($(currentCellFocus).attr('col'), 10);
 
   $(currentCellFocus).find('.cellValue').text(loadedGrid[curRow][curCol]);
+  $(currentCellFocus).find('.cellValue').attr('style', 'color: #0858aa');
+  $(currentCellFocus).find('.cellStatus').html('<span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>');
 }
 
 function revealWord() {
-
+  $('.point').each(function(index) {
+    setReveal(this, parseInt($(this).attr('row'), 10), parseInt($(this).attr('col'), 10));
+  });
 }
 
 function revealPuzzle() {
   for (var r = 0; r < gridSize; r++) {
     for (var c = 0; c < gridSize; c++) {
       if (loadedGrid[r][c] != '*') {
-        $('#' + r + '-' + c).find('.cellValue').text(loadedGrid[r][c]);
+        setReveal('#' + r + '-' + c, r, c);
       }
     }
   }
   puzzleDone();
+}
+
+function setReveal(revealedCell, r, c) {
+  $(revealedCell).find('.cellValue').text(loadedGrid[r][c]);
+  $(revealedCell).find('.cellValue').attr('style', 'color: #0858aa');
+  $(revealedCell).find('.cellStatus').html('<span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>');
 }
