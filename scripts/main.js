@@ -149,9 +149,9 @@ function isTopInvalid(r, c) {
 
 function generateAnswerInput(type, count) {
     if (type == 'across') {
-        $('#acrossClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input id="across' + count + '" type="text" class="form-control" placeholder="Across clue" aria-describedby="basic-addon1"></div>');
+        $('#acrossClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input id="across' + count + '" type="text" class="form-control clueInput" placeholder="Across clue" aria-describedby="basic-addon1"></div>');
     } else {
-        $('#downClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input id="down' + count + '" type="text" class="form-control" placeholder="Down clue" aria-describedby="basic-addon1"></div>');
+        $('#downClues').append('<div class="input-group"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input id="down' + count + '" type="text" class="form-control clueInput" placeholder="Down clue" aria-describedby="basic-addon1"></div>');
     }
 }
 
@@ -258,6 +258,12 @@ function newPuzzle() {
       setupHandlers();
       numberCells();
     }
+    $('#puzzleTitleValue').removeAttr('disabled');
+    $('#puzzleTitleValue').val('');
+    $( "#editPanel" ).attr('style', 'display: block;');
+    $( "#blacksPanel" ).attr('style', 'display: block;');
+    $( "#blackWarning" ).attr('style', 'display: block;');
+    $( "#solvePanel" ).attr('style', 'display: none');
     exitHelp();
 }
 

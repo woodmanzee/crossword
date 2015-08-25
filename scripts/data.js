@@ -8,6 +8,8 @@ function saveFile(gridSize) {
 
   var squaresOuter = [];  // array of arrays
   var squaresInner;       // inner array
+  var clueMap = {};       // clues
+  var fullString;         // full string of data
 
   for (var r = 0; r < gridSize; r++) {
     squaresInner = [];
@@ -22,10 +24,20 @@ function saveFile(gridSize) {
     squaresOuter.push(squaresInner);
   }
 
-  var jsonString = JSON.stringify(squaresOuter);
+  fullString = JSON.stringify(squaresOuter);
+
+  $('.clueInput').each(function(index) {
+    clueMap[$(this).attr('id')] = $(this).val();
+  });
+  console.log(clueMap);
+
+  fullString += 'BREAK';
+  fullString += JSON.stringify(clueMap);
+  console.log(fullString);
+
   var titleInput = $('#puzzleTitleValue').val();
   var puzzleTitle = titleInput == '' ? 'mypuzzle' : $('#puzzleTitleValue').val();
-  download(puzzleTitle, jsonString);
+  download(puzzleTitle, fullString);
 }
 
 function convertToJson(crosswordInfo) {
@@ -53,6 +65,8 @@ function onLoadClick(type) {
       loadFile(type);
     }
     return false;
+  } else {
+    loadFile(type);
   }
 }
 
@@ -68,12 +82,14 @@ function loadFile(type) {
   reader.onload = function(e) {
       // browser completed reading file - display it
       var result = (e.target.result).toString();
-      loadedGrid = $.parseJSON(result);
-      buildLoadedPuzzle(loadedGrid.length, loadedGrid, fileName);
+      var resultSplit = result.split('BREAK');
+      loadedGrid = $.parseJSON(resultSplit[0]);
+      var loadedClues = $.parseJSON(resultSplit[1]);
+      buildLoadedPuzzle(loadedGrid.length, loadedGrid, fileName, loadedClues);
   };
 }
 
-function buildLoadedPuzzle(puzzleSize, puzzleInfo, puzzleName) {
+function buildLoadedPuzzle(puzzleSize, puzzleInfo, puzzleName, puzzleClues) {
     gridSize = puzzleSize;
     $('#puzzleTitleValue').val(puzzleName);
     $('#createPanel').attr('style', 'display:block;');
@@ -83,17 +99,45 @@ function buildLoadedPuzzle(puzzleSize, puzzleInfo, puzzleName) {
     setupHandlers();
     editMode = 1;
 
+    // populate grid with letters and blacks
     for (var r = 0; r < puzzleSize; r++) {
       for (var c = 0; c < puzzleSize; c++) {
         var cur = $('#' + r + '-' + c);
         if (puzzleInfo[r][c] == '*') {
           $(cur).addClass('black');
-        } else {
+        } else if (!readOnly) {
           $(cur).find('.cellValue').text(puzzleInfo[r][c]);
         }
       }
     }
+
+    // number cells now that the blacks are in place
     numberCells();
+
+  // add clues now that inputs are in place
+  $('.clueInput').each(function(index) {
+    $(this).val(puzzleClues[$(this).attr('id')]);
+    if (readOnly) {
+      $(this).attr('disabled', 'true');
+    }
+  });
+
+  // start in letter mode so we dont accidentally add blacks
+  setLetters();
+  if (readOnly) {
+    $('#puzzleTitleValue').attr('disabled', 'true');
+    $( "#editPanel" ).attr('style', 'display:none;');
+    $( "#blacksPanel" ).attr('style', 'display:none;');
+    $( "#blackWarning" ).attr('style', 'display:none;');
+    $( "#solvePanel" ).attr('style', 'display: block');
+  } else {
+    $('#puzzleTitleValue').removeAttr('disabled');
+    $( "#editPanel" ).attr('style', 'display: block;');
+    $( "#blacksPanel" ).attr('style', 'display: block;');
+    $( "#blackWarning" ).attr('style', 'display: block;');
+    $( "#solvePanel" ).attr('style', 'display: none');
+  }
+
 }
 
 function setLoadType() {

@@ -62,7 +62,7 @@
       <div id="title">Crossword Creator</div>
 
       <div id="createPanel">
-        <div class="row">
+        <div class="row" id="editPanel">
           <div class="col-md-12 text-center">
             <div class="toolPanel">
               <!--<div class="toolTitle">Edit Mode</div>-->
@@ -73,7 +73,7 @@
             </div>
           </div>
         </div>
-        <div class="toolPanel">
+        <div id="blacksPanel" class="toolPanel">
           <button class="btn btn-info" id="lockBlacks" onclick="lockBlacks();">Lock Black Squares</button>
           <button class="btn btn-info" id="unlockBlacks" style="display:none;" onclick="unlockBlacks();">Unlock Black Squares</button>
           <button class="btn btn-info" id="clearBlacks" onclick="clearBlacks();">Clear Black Squares</button>
@@ -82,6 +82,11 @@
           <p class="text-danger">
             WARNING: Editing the layout of black boxes will delete all currently written clues. Write your clues last!
           </p>
+        </div>
+        <div id="solvePanel" class="toolPanel" style="display:none;">
+          <button class="btn btn-info" id="revealLetter" onclick="revealLetter();">Reveal Letter</button>
+          <button class="btn btn-info" id="revealWord" onclick="revealWord();">Reaveal Word</button>
+          <button class="btn btn-info" id="revealPuzzle" onclick="revealPuzzle();">Reveal Puzzle</button>
         </div>
         <div class="toolPanel">
           <input type="text" id="puzzleTitleValue" class="puzzleTitleInput form-control" style="display:inline; width: 35%;" placeholder="Puzzle Title">
@@ -143,6 +148,10 @@
                 <h5>Lock Black Squares</h5><p>Since adding or removing black squares has to renumber the entire board and clue inputs as well, this prevents accidental editing of the board and losing clues already written by setting the edit mode to "Fill in Letters" and removing the "Set Black Squares" option.</p>
                 <h5>Unlock Black Squares</h5><p>Redisplays the "Set Black Squares" option that was hidden by the "Lock Black Squares" button.</p>
                 <h5> Clear Black Squares</h5><p>Removes all black squares from the board, sets the numbers back to default, and clears out all clues written. Probably don't want to use this button very often.</p>
+
+                <h3>Future Features</h3>
+                <h5>Submit to NYT</h5><p>I'd like to add an option to submit the puzzle to the NYT (or other crossword publishing magazines), but I'm not sure if they take digital submissions.</p>
+                <h5>Be able to preserve clues</h5><p>Currently, changing the black squares will delete all existing clues and that kind of sucks. I need to figure out a way to preserve those, but it's pretty difficult since adding one square potentially shifts the entire grid (at worst case).</p>
               </div>
             <div class="col-md-3"></div>
           </div>

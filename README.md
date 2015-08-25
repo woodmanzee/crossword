@@ -11,9 +11,10 @@ This is meant to be a free online crossword creation tool, since I couldn't find
 - [x] 'help' nav menu
 - [x] 'are you sure' dialog boxes for clearing black boxes, unlocking, new when a puzzle already is open, etc.
 - [x] fix weird spacing and alignment on edit mode buttons
-- [ ] save full puzzle to file
-- [ ] load full puzzle from file, populate title
-- [ ] load full puzzle to solve
-  - [ ] make read only
-  - [ ] hide answers, but store to check
+- [x] save full puzzle to file
+- [x] load full puzzle from file, populate title
+- [x] load full puzzle to solve
+  - [x] make read only
+  - [x] hide answers, but store to check
   - [ ] add check/solve buttons
+- [ ] fix weird issue with spaces not allowed in inputs
