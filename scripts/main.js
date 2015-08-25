@@ -305,6 +305,10 @@ window.addEventListener("keydown", function(e) {
     }
 }, false);
 
+function puzzleDone() {
+
+}
+
 $( document ).ready(function() {
   $('#createPanel').attr('style', 'display:none;');
   //$('#crosswordBody').append(grid);
@@ -377,4 +381,38 @@ function exitHelp() {
   $('#helpButton').attr('style', 'display: inline-block;');
   $('#exitHelpButton').attr('style', 'display: none;');
   $('#helpPanel').attr('style', 'display: none;');
+}
+
+function checkLetter() {
+
+}
+
+function checkWord() {
+
+}
+
+function checkPuzzle() {
+
+}
+
+function revealLetter() {
+
+  var curRow = parseInt($(currentCellFocus).attr('row'), 10);
+  var curCol = parseInt($(currentCellFocus).attr('col'), 10);
+
+  $(currentCellFocus).find('.cellValue').text(loadedGrid[curRow][curCol]);
+}
+
+function revealWord() {
+
+}
+
+function revealPuzzle() {
+  for (var r = 0; r < gridSize; r++) {
+    for (var c = 0; c < gridSize; c++) {
+      console.log('Setting: ' + r + '-' + c + ' to ' + loadedGrid[r][c]);
+      $('#' + r + '-' + c).find('.cellValue').text(loadedGrid[r][c]);
+    }
+  }
+  puzzleDone();
 }
