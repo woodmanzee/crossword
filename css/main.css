@@ -28,7 +28,8 @@
   list-style: inside none;
 }
 
-.clue-input-list.active {
+.clue-input-list.active,
+.clue-list.active {
   border-top:2px solid #A0C9F5 !important;
 }
 
@@ -73,6 +74,7 @@
 
 .clue-list {
   cursor: pointer;
+  height: 30px;
 }
 
 .inputRow {

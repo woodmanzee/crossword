@@ -119,6 +119,8 @@ function checkForClueNumber(targetCell) {
 
 function numberCells() {
   counter = 1;
+  acrossCount = 0;
+  downCount = 0;
   $('#acrossClues').empty();
   $('#downClues').empty();
   $('#acrossClues').append('<ul id="across-clue-list-wrapper">');
@@ -139,12 +141,14 @@ function numberCells() {
 
       if (isLeftInvalid(r, c)) {
         currentCell.find('.cellNumber').text(counter);
-        generateClueBox('across', counter, currentCell.attr('id'));
+        generateClueBox('across', counter, currentCell.attr('id'), acrossCount);
+        acrossCount++;
         hasNumber = true;
       }
 
       if (isTopInvalid(r, c)) {
-        generateClueBox('down', counter, currentCell.attr('id'));
+        generateClueBox('down', counter, currentCell.attr('id'), downCount);
+        downCount++;
         if (!hasNumber) {
           currentCell.find('.cellNumber').text(counter);
           hasNumber = true;
@@ -181,23 +185,23 @@ function isTopInvalid(r, c) {
     return false;
 }
 
-function generateClueBox(type, count, id) {
+function generateClueBox(type, count, id, num) {
     if (type == 'across') {
       if (readOnly) {
-        $('#across-clue-list-wrapper').append('<li id="across' + count +'" class="clue-list" relSquare="' + id + '"><span class="clueNumber">' + count + '</span></li>');
+        $('#across-clue-list-wrapper').append('<li id="across' + count +'" class="clue-list" relSquare="' + id + '" num="' + num + '"><span class="clueNumber">' + count + '</span></li>');
         //$('#acrossClues').append('<div id="' + id + 'cluebox" class="input-group clueBox" relSquare="' + id + '"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <span id="across' + count + '" type="text" class="form-control clueInput" placeholder="Across clue" direction="across" aria-describedby="basic-addon1" relSquare="' + id + '"></span></div>');
       } else {
         //$('#acrossClues').append('<div id="' + id + 'cluebox" class="input-group clueBox" relSquare="' + id + '"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input id="across' + count + '" type="text" class="form-control clueInput" placeholder="Across clue" direction="across" aria-describedby="basic-addon1" relSquare="' + id + '"></div>');
-        $('#across-clue-list-wrapper').append('<li id="across' + count + '" class="clue-input-list" relSquare="' + id + '"><span class="clueNumber">' + count + '</span><input class="clueInput" placeholder="Across Clue" direction="across"></li>');
+        $('#across-clue-list-wrapper').append('<li id="across' + count + '" class="clue-input-list" relSquare="' + id + '" num="' + num + '"><span class="clueNumber">' + count + '</span><input name="across' + count + '" class="clueInput" placeholder="Across Clue" direction="across"></li>');
       }
     } else {
       if (readOnly) {
         //$('#down-clue-list-wrapper').append('<li id="down' + count +'" class="clue-list" value="' + count + '" relSquare="' + id + '"></li>');
         //$('#downClues').append('<div id="' + id + 'cluebox" class="input-group clueBox" relSquare = "' + id + '"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <span id="down' + count + '" type="text" class="form-control clueInput" placeholder="Down clue" direction="down" aria-describedby="basic-addon1" relSquare="' + id + '"></span></div>');
-        $('#down-clue-list-wrapper').append('<li id="down' + count +'" class="clue-list" relSquare="' + id + '"><span class="clueNumber">' + count + '</span></li>');
+        $('#down-clue-list-wrapper').append('<li id="down' + count +'" class="clue-list" relSquare="' + id + '" num="' + num + '"><span class="clueNumber">' + count + '</span></li>');
       } else {
         //$('#downClues').append('<div id="' + id + 'cluebox" class="input-group clueBox" relSquare = "' + id + '"><span class="input-group-addon" id="basic-addon1">' + count + '</span> <input id="down' + count + '" type="text" class="form-control clueInput" placeholder="Down clue" direction="down" aria-describedby="basic-addon1" relSquare="' + id + '"></div>');
-        $('#down-clue-list-wrapper').append('<li id="down' + count + '" class="clue-input-list" relSquare="' + id + '"><span class="clueNumber">' + count + '</span><input class="clueInput" placeholder="Down Clue" direction="down"></li>');
+        $('#down-clue-list-wrapper').append('<li id="down' + count + '" class="clue-input-list" relSquare="' + id + '" num="' + num + '"><span class="clueNumber">' + count + '</span><input name="down' + count + '" class="clueInput" placeholder="Down Clue" direction="down"></li>');
       }
     }
 }

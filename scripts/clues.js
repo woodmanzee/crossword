@@ -29,7 +29,6 @@ function trackClueSolveClick() {
 }*/
 
 function highlightClueFromGrid(number) {
-  console.log(number);
   removePreviousClueHighlighting();
   if (gridDirection == 1) {
     highlightedClueInput = $('#across' + number);
@@ -37,13 +36,17 @@ function highlightClueFromGrid(number) {
     $('#across' + number).children('span').addClass('active');
 
     // scroll to see clue
-    $('#acrossClues').scrollTop(highlightedClueInput.offset());
+    var scrollVal = highlightedClueInput.attr('num') * 40;
+    console.log('scroll: ' + scrollVal);
+    $('#acrossClues').scrollTop(scrollVal);
   } else {
     highlightedClueInput = $('#down' + number);
     $('#down' + number).addClass('active');
     $('#down' + number).children('span').addClass('active');
 
-    $('#downClues').scrollTop(highlightedClueInput.offset());
+    // scroll to see clue
+    var scrollVal = highlightedClueInput.attr('num') * 40;
+    $('#downClues').scrollTop(scrollVal);
   }
 }
 

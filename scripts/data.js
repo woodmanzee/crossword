@@ -129,7 +129,7 @@ function buildLoadedPuzzle(puzzleSize, puzzleInfo, puzzleName, puzzleClues) {
 function loadToEdit(puzzleClues) {
     // add clues now that inputs are in place
     $('.clueInput').each(function(index) {
-        $(this).val(puzzleClues[$(this).attr('id')]);
+        $(this).val(puzzleClues[$(this).attr('name')]);
     });
 
     trackClueClick();
@@ -148,7 +148,7 @@ function loadToSolve(puzzleClues) {
     });
 
     $('.clue-list').each(function(index) {
-        $(this).text(puzzleClues[$(this).attr('id')]);
+        $(this).children('span.clueNumber').after(puzzleClues[$(this).attr('id')]);
     });
 
     trackClueSolveClick();
