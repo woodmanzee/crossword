@@ -19,8 +19,22 @@
   display: block;
 }
 
-#clues {
-  padding-top: 35px;
+.currentClue {
+  background: #A0C9F5 !important;
+}
+
+.clue-list-wrapper {
+  cursor: pointer;
+  list-style: inside none;
+}
+
+.clue-input-list.active {
+  border-top:2px solid #A0C9F5 !important;
+}
+
+.clueNumber.active {
+  background: #A0C9F5 !important;
+  border-top:2px solid #A0C9F5 !important;
 }
 
 .toolPanel {
@@ -44,19 +58,21 @@
   display: inline-block;
 }
 
-.clueSection {
-  display: inline-block;
-  width: 45%;
-  margin-bottom: 100px;
-  vertical-align: top;
-}
-
-.clueSectionTitle {
-  margin-bottom: 20px;
-}
-
 .clueSectionInputs {
   overflow-y: auto;
+  height: 300px;
+}
+
+.clueInput {
+  height: auto !important;
+  width: 100%;
+}
+
+.clueBox {
+}
+
+.clue-list {
+  cursor: pointer;
 }
 
 .inputRow {
@@ -141,3 +157,46 @@
 .wrongGuess {
   color: red;
 }
+
+.listPill {
+  border-top: none;
+  margin: 0px;
+}
+
+ul {
+    counter-reset:li; /* Initiate a counter */
+    margin-left:0; /* Remove the default left margin */
+    padding-left:0; /* Remove the default left padding */
+}
+ul > li {
+    position:relative; /* Create a positioning context */
+    margin:0 0 10px 2em; /* Give each list item a left margin to make room for the numbers */
+    padding:1px 8px; /* Add some spacing around the content */
+    list-style:none; /* Disable the normal item numbering */
+    border-top:2px solid #303030;
+    background:#ffffff;
+}
+ul > li > span {
+    content:value(li); /* Use the counter as content */
+    counter-increment:li; /* Increment the counter by 1 */
+    /* Position and style the number */
+    position:absolute;
+    top:-2px;
+    left:-2em;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    width:2em;
+    /* Some space between the number and the content in browsers that support
+       generated content but not positioning it (Camino 2 is one example) */
+    margin-right:8px;
+    padding:4px;
+    border-top:2px solid #303030;
+    color:#fff;
+    background:#303030;
+    font-weight:bold;
+    font-family:"Helvetica Neue", Arial, sans-serif;
+    text-align:center;
+}
+li ul {margin-top:6px;}
+ul ul li:last-child {margin-bottom:0;}

@@ -73,6 +73,7 @@ function onLoadClick(type) {
 // type 1 is edit, type 2 is read only for solve
 function loadFile(type) {
   exitHelp();
+  removePreviousClueHighlighting();
   readOnly = type == 1 ? false : true;
   setLoadType();
   var input = document.getElementById('fileInput').files[0];
@@ -114,31 +115,50 @@ function buildLoadedPuzzle(puzzleSize, puzzleInfo, puzzleName, puzzleClues) {
     // number cells now that the blacks are in place
     numberCells();
 
-  // add clues now that inputs are in place
-  $('.clueInput').each(function(index) {
-    $(this).val(puzzleClues[$(this).attr('id')]);
     if (readOnly) {
-      $(this).attr('disabled', 'true');
+      loadToSolve(puzzleClues);
+    } else {
+      loadToEdit(puzzleClues);
     }
-  });
 
   // start in letter mode so we dont accidentally add blacks
   setLetters();
-  if (readOnly) {
+
+}
+
+function loadToEdit(puzzleClues) {
+    // add clues now that inputs are in place
+    $('.clueInput').each(function(index) {
+        $(this).val(puzzleClues[$(this).attr('id')]);
+    });
+
+    trackClueClick();
+
+    $('#puzzleTitleValue').removeAttr('disabled');
+    $( "#editPanel" ).attr('style', 'display: block;');
+    $( "#blacksPanel" ).attr('style', 'display: block;');
+    $( "#solvePanel" ).attr('style', 'display: none');
+    $( "#checkPanel" ).attr('style', 'display: none');
+}
+
+function loadToSolve(puzzleClues) {
+    // add clues now that inputs are in place
+    $('.clueInput').each(function(index) {
+        $(this).text(puzzleClues[$(this).attr('id')]);
+    });
+
+    $('.clue-list').each(function(index) {
+        $(this).text(puzzleClues[$(this).attr('id')]);
+    });
+
+    trackClueSolveClick();
+
     $('#puzzleTitleValue').attr('disabled', 'true');
     $( "#editPanel" ).attr('style', 'display:none;');
     $( "#blacksPanel" ).attr('style', 'display:none;');
     $( "#blackWarning" ).attr('style', 'display:none;');
     $( "#solvePanel" ).attr('style', 'display: block');
     $( "#checkPanel" ).attr('style', 'display: block');
-  } else {
-    $('#puzzleTitleValue').removeAttr('disabled');
-    $( "#editPanel" ).attr('style', 'display: block;');
-    $( "#blacksPanel" ).attr('style', 'display: block;');
-    $( "#solvePanel" ).attr('style', 'display: none');
-    $( "#checkPanel" ).attr('style', 'display: none');
-  }
-
 }
 
 function setLoadType() {
