@@ -55,58 +55,40 @@ function highlightFocusRow(newCell) {
     var curCol = parseInt(newCell.attr('col'), 10);
 
     newCell.addClass('point');
+    checkForClueNumber(newCell);
 
-    if (gridDirection == 1) {
-      // iterate to the right and highlight
-      for (var i = 1; i < gridSize; i++) {
-        var nextCell = $('#' + curRow + '-' + (curCol + i));
-        if (nextCell.hasClass('black')) {
-          break;
-        }
-        if (curCol != (gridSize - 1) && !nextCell.hasClass('black')) {
-          nextCell.addClass('point');
-          checkForClueNumber(nextCell);
-        }
+    var currentCell = newCell;
+
+    // iterate to the right/down and highlight
+    for (var i = 1; i < gridSize; i++) {
+      var nextCell = (gridDirection == 1) ? $('#' + curRow + '-' + (curCol + i)) : $('#' + (curRow + i) + '-' + curCol);
+      if (nextCell.hasClass('black')) {
+        break;
+      } else if ((gridDirection == 1 && nextCell.attr('col') != gridSize) || (gridDirection == 2 && nextCell.attr('row') != gridSize)) {
+        nextCell.addClass('point');
       }
-      // iterate to the left and highlight
-      for (var i = 1; i < gridSize; i++) {
-        var nextCell = $('#' + curRow + '-' + (curCol - i));
-        if (nextCell.hasClass('black')) {
-          break;
-        }
-        if (curCol != 0 && !nextCell.hasClass('black')) {
-          nextCell.addClass('point');
-          checkForClueNumber(nextCell);
-        }
+    }
+
+    // iterate to the left/up and highlight
+    for (var i = 1; i < gridSize; i++) {
+      var nextCell = (gridDirection == 1) ? $('#' + curRow + '-' + (curCol - i)) : $('#' + (curRow - i) + '-' + curCol);
+      if (nextCell.hasClass('black')) {
+        checkForClueNumber(currentCell);
+        break;
+      } else if ((gridDirection == 1 && nextCell.attr('col') != 0) || (gridDirection == 2 && nextCell.attr('row') != 0)) {
+        nextCell.addClass('point');
+      } else if ((gridDirection == 1 && nextCell.attr('col') == 0) || (gridDirection == 2 && nextCell.attr('row') == 0)) {
+        nextCell.addClass('point');
+        checkForClueNumber(nextCell);
       }
-    } else {
-      // iterate down and highlight
-      for (var i = 1; i < gridSize; i++) {
-        var nextCell = $('#' + (curRow + i) + '-' + curCol);
-        if (nextCell.hasClass('black')) {
-          break;
-        }
-        if (curRow != (gridSize - 1) && !nextCell.hasClass('black')) {
-          nextCell.addClass('point');
-          checkForClueNumber(nextCell);
-        }
-      }
-      // iterate up and highlight
-      for (var i = 1; i < gridSize; i++) {
-        var nextCell = $('#' + (curRow - i) + '-' + curCol);
-        if (nextCell.hasClass('black')) {
-          break;
-        }
-        if (curRow != 0 && !nextCell.hasClass('black')) {
-          nextCell.addClass('point');
-          checkForClueNumber(nextCell);
-        }
-      }
+
+      currentCell = nextCell;
     }
 }
 
 function checkForClueNumber(targetCell) {
   if ($(targetCell).find('.cellNumber').text() != '') {
+    console.log('clueNum: ' + $(targetCell).find('.cellNumber').text());
     var currentClueNumber = $(targetCell).find('.cellNumber').text();
     highlightClueFromGrid(currentClueNumber);
     if (gridDirection == 1) {
