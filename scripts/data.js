@@ -27,7 +27,7 @@ function saveFile(gridSize) {
   fullString = JSON.stringify(squaresOuter);
 
   $('.clueInput').each(function(index) {
-    clueMap[$(this).attr('id')] = $(this).val();
+    clueMap[$(this).attr('name')] = $(this).val();
   });
   console.log(clueMap);
 

@@ -353,6 +353,7 @@ function newPuzzle() {
     $(window).unbind("keyup");
     var gridInput = parseInt($('#gridSizePicklist').find(":selected").text(), 10);
     if (gridInput >= 5 && gridInput <= 30) {
+      readOnly = false;
       gridSize = gridInput;
       $('#createPanel').attr('style', 'display:block;');
       $('#promptPanel').attr('style', 'display:none;');

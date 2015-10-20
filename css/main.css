@@ -165,6 +165,16 @@
   margin: 0px;
 }
 
+.scratch-paper {
+  margin: 20px 0 10px 0;
+}
+
+.clue-box {
+    padding-bottom: 10px;
+    border-bottom: 3px solid lightgrey;
+    border-top: 3px solid lightgrey;
+}
+
 ul {
     counter-reset:li; /* Initiate a counter */
     margin-left:0; /* Remove the default left margin */
